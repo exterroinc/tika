@@ -22,12 +22,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>30</version>
-    <relativePath />
-  </parent>
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Divebell Maven Packages</name>
+      <url>https://maven.pkg.github.com/divebell/tika</url>
+    </repository>
+  </distributionManagement>
+
+<!--  <parent>-->
+<!--    <groupId>org.apache</groupId>-->
+<!--    <artifactId>apache</artifactId>-->
+<!--    <version>31</version>-->
+<!--    <relativePath />-->
+<!--  </parent>-->
 
   <groupId>org.apache.tika</groupId>
   <artifactId>tika-parent</artifactId>
