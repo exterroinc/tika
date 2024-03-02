@@ -102,23 +102,45 @@ class ForkServer implements Runnable {
      * @throws Exception if the server could not be started
      */
     public static void main(String[] args) throws Exception {
-        long serverPulseMillis = Long.parseLong(args[0]);
-        long serverParseTimeoutMillis = Long.parseLong(args[1]);
-        long serverWaitTimeoutMillis = Long.parseLong(args[2]);
+        System.err.println("******************************************");
+        System.err.println("******************************************");
+        System.err.println("**** Staring ForkServer for Divebell *****");
+        System.err.println("******************************************");
+        System.err.println("******************************************");
+        try {
+            long serverPulseMillis = Long.parseLong(args[0]);
+            long serverParseTimeoutMillis = Long.parseLong(args[1]);
+            long serverWaitTimeoutMillis = Long.parseLong(args[2]);
 
-        URL.setURLStreamHandlerFactory(new MemoryURLStreamHandlerFactory());
+            System.err.println("serverPulseMillis: " + serverPulseMillis );
+            System.err.println("serverParseTimeoutMillis: " + serverParseTimeoutMillis );
+            System.err.println("serverWaitTimeoutMillis: " + serverWaitTimeoutMillis );
 
-        ForkServer server =
-                new ForkServer(System.in, System.out, serverPulseMillis, serverParseTimeoutMillis,
-                        serverWaitTimeoutMillis);
-        System.setIn(new ByteArrayInputStream(new byte[0]));
-        System.setOut(System.err);
+            URL.setURLStreamHandlerFactory(new MemoryURLStreamHandlerFactory());
 
-        Thread watchdog = new Thread(server, "Tika Watchdog");
-        watchdog.setDaemon(true);
-        watchdog.start();
+            ForkServer server =
+                    new ForkServer(System.in, System.out, serverPulseMillis, serverParseTimeoutMillis,
+                            serverWaitTimeoutMillis);
 
-        server.processRequests();
+            System.err.println("ForkServer newed");
+
+            System.setIn(new ByteArrayInputStream(new byte[0]));
+            System.setOut(System.err);
+
+            Thread watchdog = new Thread(server, "Tika Watchdog");
+            System.err.println("Watchdog Created");
+            watchdog.setDaemon(true);
+            watchdog.start();
+
+            System.err.println("Watchdog Started");
+
+            server.processRequests();
+        } catch (Throwable e) {
+            System.err.println("**** Exiting early on with " + e.getMessage() + " *****");
+            e.printStackTrace();
+            System.err.flush();
+            throw e;
+        }
     }
 
     public void run() {
@@ -145,6 +167,7 @@ class ForkServer implements Runnable {
         //initialize
         try {
             initializeParserAndLoader();
+            System.err.println("initializeParserAndLoader Complete");
         } catch (Throwable t) {
             t.printStackTrace();
             System.err.flush();
@@ -159,6 +182,7 @@ class ForkServer implements Runnable {
         }
         //main loop
         try {
+            System.err.println("*** Starting infinite loop...");
             while (true) {
                 int request = input.read();
                 if (request == -1) {
