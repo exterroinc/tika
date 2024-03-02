@@ -30,7 +30,7 @@
   </parent>
 
   <artifactId>tika-core</artifactId>
-  <version>2.9.1-divebel-SNAPSHOT</version>
+  <version>2.9.2-divebell</version>
   <packaging>bundle</packaging>
   <name>Apache Tika core</name>
   <url>https://tika.apache.org/</url>
