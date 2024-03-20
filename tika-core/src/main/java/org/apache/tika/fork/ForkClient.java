@@ -35,6 +35,8 @@ import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.ContentHandler;
 
 import org.apache.tika.exception.TikaException;
@@ -43,6 +45,8 @@ import org.apache.tika.sax.RecursiveParserWrapperHandler;
 import org.apache.tika.utils.ProcessUtils;
 
 class ForkClient {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ForkClient.class);
     private static final AtomicInteger CLIENT_COUNTER = new AtomicInteger(0);
 
     private final List<ForkResource> resources = new ArrayList<>();
@@ -146,6 +150,7 @@ class ForkClient {
             command.add(Long.toString(timeoutLimits.getParseTimeoutMS()));
             command.add(Long.toString(timeoutLimits.getWaitTimeoutMS()));
             builder.command(command);
+            LOG.info("*** Final command for ForkServer: {} ****", String.join(" ", command));
             builder.redirectError(ProcessBuilder.Redirect.INHERIT);
             this.process = builder.start();
 
